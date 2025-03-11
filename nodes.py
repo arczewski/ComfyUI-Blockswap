@@ -3,6 +3,7 @@ import gc
 from comfy.patcher_extension import CallbacksMP
 from comfy.model_patcher import ModelPatcher
 from comfy.model_base import HunyuanVideo
+from comfy.model_base import WAN21
 
 #Based on https://github.com/kijai/ComfyUI-HunyuanVideoWrapper
 class HunyuanVideoBlockSwap:
@@ -25,7 +26,7 @@ class HunyuanVideoBlockSwap:
         
         def swap_blocks(model: ModelPatcher, device_to, lowvram_model_memory, force_patch_weights, full_load):
             base_model = model.model
-            if isinstance(base_model, HunyuanVideo):
+            if isinstance(base_model, HunyuanVideo) or isinstance(base_model, WAN21):
                 unet = base_model.diffusion_model
                 for b, block in enumerate(unet.double_blocks):
                     if b < double_blocks_to_swap:
